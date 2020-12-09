@@ -12,7 +12,7 @@ class MakeMeRich():
         """Constructor"""
         self.numberList = []
         self.multiplier = None
-        self.modulus = None
+        self.modulus = 2**32
         self.increment = None
         self.seed = None
         self.money = 0;
@@ -55,19 +55,19 @@ class MakeMeRich():
         return self.crack_unknown_multiplier(modulus)
 
     def bet(self, amount=1, mode='Lcg', number=1):
-        r = requests.get('http://95.217.177.249/casino/playLcg?id=221&bet='+str(amount)+'&number='+str(number)).json()
+        r = requests.get('http://95.217.177.249/casino/playLcg?id=222&bet='+str(amount)+'&number='+str(number)).json()
         print(r)
         self.numberList.append(r['realNumber'])
-        if(len(self.numberList)>6):
+        if(len(self.numberList)>3):
             self.numberList.pop(0)
         self.money = r['account']['money']
         return r['realNumber'], r['account']['money'], r['message'],
 
     def initial_start(self):
-        for i in range(6):
+        for i in range(3):
            self.bet()
         self.print_number_list()
-        self.crack_unknown_modulus();
+        self.crack_unknown_multiplier(self.modulus);
         print('Modulus '+str(self.modulus))
         print('Multiplier '+str(self.multiplier))
         print('Increment '+str(self.increment))
@@ -81,7 +81,7 @@ class MakeMeRich():
     def start(self):
         self.initial_start()
         while(self.money<FINISH_AMOUNT):
-            self.bet(number=self.get_next_number(), amount=100);
+            self.bet(number=self.get_next_number(), amount=300);
 
     def print_number_list(self):
         print(self.numberList)
