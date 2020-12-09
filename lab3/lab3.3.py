@@ -1,12 +1,4 @@
 import requests
-import dateutil.parser
-import datetime
-import random
-import calendar
-
-from numpy import uint32
-
-import sys
 
 _to_bytes = lambda n, *args, **kwargs: n.to_bytes(*args, **kwargs)
 _from_bytes = lambda *args, **kwargs: int.from_bytes(*args, **kwargs)
